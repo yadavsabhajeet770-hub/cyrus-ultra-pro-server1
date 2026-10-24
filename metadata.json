@@ -1,0 +1,6 @@
+{
+  "name": "NY Fusion Predictor Pro",
+  "description": "NY AI - Clean, smooth, high-precision AI-powered WinGo 1M predictor with Firebase & Google Login, continuous game session persistence, and multi-server engine algorithms.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,246 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile, app settings, and performance statistics",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Unique Firebase Auth UID"
+        },
+        "userName": {
+          "type": "string",
+          "maxLength": 80,
+          "description": "User display name"
+        },
+        "userAvatar": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "User avatar URL or base64 icon"
+        },
+        "userTitle": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "VIP Elite badge title"
+        },
+        "theme": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "App theme choice"
+        },
+        "sound": {
+          "type": "boolean",
+          "description": "Audio FX enabled"
+        },
+        "vibrate": {
+          "type": "boolean",
+          "description": "Haptic feedback enabled"
+        },
+        "particles": {
+          "type": "boolean",
+          "description": "Confetti FX enabled"
+        },
+        "autoRefresh": {
+          "type": "boolean",
+          "description": "Background auto refresh toggle"
+        },
+        "refreshInterval": {
+          "type": "number",
+          "description": "Refresh rate in seconds"
+        },
+        "recovery": {
+          "type": "boolean",
+          "description": "Martingale anti-loss recovery toggle"
+        },
+        "showNums": {
+          "type": "boolean",
+          "description": "Lucky digits display toggle"
+        },
+        "server": {
+          "type": "number",
+          "description": "Active server engine (1, 2, or 3)"
+        },
+        "proxyUrl": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Custom API proxy URL"
+        },
+        "aiProxyUrl": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Custom AI proxy URL"
+        },
+        "activeKey": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "VIP access activation key"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last updated timestamp"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        }
+      },
+      "required": ["userId", "userName"]
+    },
+    "PredictionHistory": {
+      "title": "PredictionHistory",
+      "description": "User prediction history item for round tracking",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the record owner"
+        },
+        "period": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "WinGo period issue number"
+        },
+        "predicted": {
+          "type": "string",
+          "enum": ["BIG", "SMALL"],
+          "description": "Predicted size"
+        },
+        "focusTarget": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Single focus target: BIG, SMALL, RED, GREEN"
+        },
+        "targetCategory": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Category: SIZE or COLOR"
+        },
+        "suggestedNums": {
+          "type": "array",
+          "description": "Array of 2 suggested sniper numbers"
+        },
+        "actualNum": {
+          "type": "number",
+          "description": "Actual drawn number (0-9)"
+        },
+        "actualSize": {
+          "type": "string",
+          "description": "Actual drawn size"
+        },
+        "actualColor": {
+          "type": "string",
+          "description": "Actual drawn color"
+        },
+        "result": {
+          "type": "string",
+          "enum": ["WIN", "LOSS", "JACKPOT", "SKIPPED"],
+          "description": "Round outcome status"
+        },
+        "isSkip": {
+          "type": "boolean",
+          "description": "Whether this round was advised to be skipped"
+        },
+        "isHedgeActive": {
+          "type": "boolean",
+          "description": "Whether opposite number hedge was active"
+        },
+        "skipReason": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Reason for skipping round"
+        },
+        "engine": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Prediction server engine used"
+        },
+        "confidence": {
+          "type": "number",
+          "description": "Confidence percentage"
+        },
+        "timestamp": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Local time string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp"
+        }
+      },
+      "required": ["userId", "period", "predicted"]
+    },
+    "GlobalSignal": {
+      "title": "GlobalSignal",
+      "description": "Global 500-draw shared quantum prediction signal",
+      "type": "object",
+      "properties": {
+        "period": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Target period issue number"
+        },
+        "prediction": {
+          "type": "string",
+          "enum": ["BIG", "SMALL"],
+          "description": "Consensus prediction"
+        },
+        "focusTarget": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Focus target"
+        },
+        "targetCategory": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Category"
+        },
+        "luckyDigits": {
+          "type": "array",
+          "description": "Array of lucky digits"
+        },
+        "isHedgeActive": {
+          "type": "boolean",
+          "description": "Whether hedge was deployed"
+        },
+        "confidence": {
+          "type": "number",
+          "description": "Consensus confidence score"
+        },
+        "engine": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Engine name"
+        },
+        "trendHealth": {
+          "type": "number",
+          "description": "Trend quality score 0-100"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Update timestamp"
+        }
+      },
+      "required": ["period", "prediction"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile and settings documents"
+    },
+    "/users/{userId}/history/{historyId}": {
+      "schema": "PredictionHistory",
+      "description": "User prediction history documents"
+    },
+    "/global_signals/{period}": {
+      "schema": "GlobalSignal",
+      "description": "Live global predictions for multi-client synchronization"
+    }
+  }
+}

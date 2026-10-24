@@ -1,0 +1,16 @@
+NY FUSION PREDICTOR PRO — SERVER 2 ADVANCED PATTERN ENGINE
+
+UI/UX and animations were intentionally left unchanged.
+
+Server 2 now combines:
+- live 3..9 step n-gram evidence
+- embedded 11,508-draw historical n-gram evidence from WingoPatterns_export (24)
+- 500 named structural patterns from wingo patterns.txt
+- fuzzy structural/family matching
+- transition and streak statistics
+- 5/10/20/50/100 window regime analysis
+- digit transition + 2-digit suffix model
+- conservative Bayesian smoothing and evidence-quality weighting
+- rare SKIP protection only when the combined edge is genuinely flat/extreme-chop
+
+The static SURESHOT dictionary is not used as a deterministic truth source.

@@ -1,0 +1,545 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --accent: #00e676;
+  --accent-emerald: #10b981;
+  --accent-glow: rgba(0, 230, 118, 0.4);
+  --glass: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.28);
+  --glass-dark: rgba(6, 15, 9, 0.76);
+  --text: #ffffff;
+  --muted: #94a3b8;
+  --shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.75);
+  --radius: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light dark;
+}
+
+html.dark {
+  color-scheme: dark;
+  background-color: #030805;
+}
+
+html:not(.dark) {
+  color-scheme: light;
+  background-color: #f4f8f5;
+}
+
+@layer base {
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Plus Jakarta Sans", "Inter", -apple-system-subheadline, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: -0.011em;
+  }
+
+  html.dark body {
+    color: #e6fbf0;
+    background-color: #030805;
+  }
+
+  html:not(.dark) body {
+    color: #0b1e12;
+    background-color: #f4f8f5;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-feature-settings: "tnum" 1, "zero" 1;
+  }
+
+  .font-space {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+    letter-spacing: -0.022em;
+  }
+}
+
+/* ========================================================= */
+/* APPLE iOS LIQUID GLASS SURFACES */
+/* ========================================================= */
+
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(32px) saturate(210%);
+  -webkit-backdrop-filter: blur(32px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 20px 45px -12px rgba(0, 75, 30, 0.1),
+    0 6px 18px 0 rgba(0, 0, 0, 0.04),
+    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.45);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .liquid-glass,
+html.dark .liquid-glass,
+.liquid-glass-dark {
+  background: rgba(13, 27, 18, 0.82);
+  backdrop-filter: blur(32px) saturate(210%);
+  -webkit-backdrop-filter: blur(32px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 
+    0 24px 60px -15px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 1.5px 0 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-pill {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.dark .liquid-pill,
+html.dark .liquid-pill {
+  background: rgba(18, 36, 25, 0.78);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 3px 12px rgba(0, 0, 0, 0.35);
+}
+
+.cinematic-glass {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(30px) saturate(190%);
+  -webkit-backdrop-filter: blur(30px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.cinematic-input {
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cinematic-input:focus {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: #00e676;
+  box-shadow: 
+    0 0 25px rgba(0, 230, 118, 0.4),
+    inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================================= */
+/* iOS FLUID LIQUID ANIMATIONS */
+/* ========================================================= */
+
+/* Fluid Liquid Sheen Animation */
+@keyframes liquid-sheen {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  40%, 100% {
+    transform: translateX(280%) skewX(-20deg);
+  }
+}
+
+.animate-liquid-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-liquid-sheen::after {
+  content: '';
+  position: absolute;
+  top: -25%;
+  left: 0;
+  width: 55%;
+  height: 150%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+  animation: liquid-sheen 3.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+/* Floating Animation */
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.4deg);
+  }
+}
+
+.animate-float-subtle {
+  animation: float-subtle 4.5s ease-in-out infinite;
+}
+
+/* Liquid Neon Ring Pulse */
+@keyframes liquid-pulse {
+  0%, 100% {
+    box-shadow: 0 0 22px rgba(0, 184, 74, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.7);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 230, 118, 0.75), inset 0 2px 0 rgba(255, 255, 255, 0.95);
+    transform: scale(1.035);
+  }
+}
+
+.animate-liquid-pulse {
+  animation: liquid-pulse 3s ease-in-out infinite;
+}
+
+/* iOS Dynamic Aurora Orb Animation */
+@keyframes fluid-orb {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate(45px, -35px) scale(1.15) rotate(5deg);
+  }
+  66% {
+    transform: translate(-35px, 40px) scale(0.9) rotate(-4deg);
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+}
+
+.animate-fluid-orb {
+  animation: fluid-orb 20s ease-in-out infinite alternate;
+}
+
+/* Line Flow Stream */
+@keyframes stream-flow {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-stream-flow {
+  background-size: 200% 100%;
+  animation: stream-flow 3s linear infinite;
+}
+
+/* iOS Smooth Tactile Tap / Press Squash */
+.ios-press {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease;
+}
+
+.ios-press:active {
+  transform: scale(0.95);
+  opacity: 0.92;
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 184, 74, 0.35);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 184, 74, 0.6);
+}
+
+/* ========================================================= */
+/* PREMIUM THEME COLOR ANIMATIONS & MULTI-HUE AURORA */
+/* ========================================================= */
+
+@keyframes color-aurora-shift {
+  0% {
+    filter: hue-rotate(0deg) saturate(100%);
+  }
+  50% {
+    filter: hue-rotate(30deg) saturate(125%);
+  }
+  100% {
+    filter: hue-rotate(0deg) saturate(100%);
+  }
+}
+
+.animate-aurora-shift {
+  animation: color-aurora-shift 12s ease-in-out infinite;
+}
+
+@keyframes gradient-flow-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-flow {
+  background-size: 200% 200%;
+  animation: gradient-flow-x 6s ease infinite;
+}
+
+.animate-gradient-flow-fast {
+  background-size: 200% 200%;
+  animation: gradient-flow-x 3s ease infinite;
+}
+
+@keyframes neon-rainbow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-neon-spin {
+  animation: neon-rainbow-spin 8s linear infinite;
+}
+
+@keyframes ambient-breathe {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.08) translateY(-10px);
+  }
+}
+
+.animate-ambient-breathe {
+  animation: ambient-breathe 7s ease-in-out infinite;
+}
+
+@keyframes border-glow-sweep {
+  0% {
+    box-shadow: 0 0 15px var(--theme-primary, rgba(0, 230, 118, 0.35)), inset 0 0 10px var(--theme-accent, rgba(105, 240, 174, 0.2));
+  }
+  50% {
+    box-shadow: 0 0 28px var(--theme-accent, rgba(105, 240, 174, 0.55)), inset 0 0 18px var(--theme-secondary, rgba(0, 184, 74, 0.3));
+  }
+  100% {
+    box-shadow: 0 0 15px var(--theme-primary, rgba(0, 230, 118, 0.35)), inset 0 0 10px var(--theme-accent, rgba(105, 240, 174, 0.2));
+  }
+}
+
+.animate-border-glow-sweep {
+  animation: border-glow-sweep 4s ease-in-out infinite;
+}
+
+/* ========================================================= */
+/* UNIVERSAL DYNAMIC THEME COLOR OVERRIDES */
+/* Allows ALL UI borders, badges, buttons, and highlights */
+/* to change synchronously with the selected theme color! */
+/* ========================================================= */
+
+.theme-bg-gradient {
+  background: linear-gradient(135deg, var(--theme-primary, #00e676), var(--theme-secondary, #00b84a)) !important;
+}
+
+.theme-bg-gradient-tr {
+  background: linear-gradient(to top right, var(--theme-primary, #00e676), var(--theme-accent, #69f0ae)) !important;
+}
+
+.theme-text-primary {
+  color: var(--theme-primary, #00e676) !important;
+}
+
+.theme-text-accent {
+  color: var(--theme-text-accent, #006b28) !important;
+}
+
+.theme-border {
+  border-color: var(--theme-border, rgba(0, 230, 118, 0.35)) !important;
+}
+
+.theme-badge {
+  background-color: var(--theme-badge-bg, rgba(0, 230, 118, 0.15)) !important;
+  color: var(--theme-badge-text, #00e676) !important;
+  border-color: var(--theme-border, rgba(0, 230, 118, 0.3)) !important;
+}
+
+.theme-glow-shadow {
+  box-shadow: 0 10px 25px -5px var(--theme-glow, rgba(0, 230, 118, 0.35)) !important;
+}
+
+/* Dynamic overrides so emerald utility classes adapt to the theme */
+.border-emerald-500\/10,
+.border-emerald-500\/15,
+.border-emerald-500\/20,
+.border-emerald-500\/25,
+.border-emerald-500\/30,
+.border-emerald-500\/40 {
+  border-color: var(--theme-border, rgba(0, 230, 118, 0.3)) !important;
+}
+
+.bg-emerald-500\/10,
+.bg-emerald-500\/15,
+.bg-emerald-500\/20 {
+  background-color: var(--theme-badge-bg, rgba(0, 230, 118, 0.15)) !important;
+}
+
+.text-emerald-400,
+.text-emerald-500 {
+  color: var(--theme-primary, #00e676) !important;
+}
+
+.text-[#006b28],
+.text-[#00b84a] {
+  color: var(--theme-text-accent, #006b28) !important;
+}
+
+
+@keyframes floatAnim {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.02); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px var(--accent-glow)); }
+  50% { filter: drop-shadow(0 0 25px var(--accent-glow)); }
+}
+
+@keyframes liquidBorder {
+  0% { border-color: rgba(16, 185, 129, 0.2); }
+  50% { border-color: rgba(16, 185, 129, 0.8); }
+  100% { border-color: rgba(16, 185, 129, 0.2); }
+}
+
+@keyframes auraSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes shimmerEffect {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.premium-aura {
+  position: relative;
+  overflow: hidden;
+}
+.premium-aura::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250%;
+  height: 250%;
+  background: conic-gradient(from 0deg, transparent 0%, rgba(16, 185, 129, 0.2) 25%, transparent 50%, rgba(16, 185, 129, 0.2) 75%, transparent 100%);
+  animation: auraSpin 8s linear infinite;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+}
+.premium-aura > * {
+  position: relative;
+  z-index: 1;
+}
+
+.premium-glass {
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  animation: liquidBorder 4s infinite ease-in-out;
+}
+
+html.dark .premium-glass {
+  background: linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(0,0,0,0.6) 100%);
+  box-shadow: 0 10px 40px -10px rgba(16, 185, 129, 0.3);
+}
+
+.premium-text-glow {
+  text-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+.premium-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.premium-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+}
+.premium-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+  transform: rotate(45deg) translate(-50%, -50%);
+  animation: shimmerEffect 3s infinite linear;
+  pointer-events: none;
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, #10b981 0%, #34d399 20%, #ffffff 50%, #34d399 80%, #10b981 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmerEffect 3s linear infinite;
+}
+
+.panel-container {
+  animation: floatAnim 6s ease-in-out infinite;
+}
+
+/* Fast, tactile iOS-style button response without changing button layout or behavior. */
+@media (prefers-reduced-motion: no-preference) {
+  button:not(:disabled) {
+    touch-action: manipulation;
+    transition: transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 160ms ease, filter 160ms ease;
+  }
+  button:not(:disabled):active {
+    transform: scale(0.975);
+    filter: brightness(1.06);
+  }
+  button:not(:disabled):hover {
+    box-shadow: 0 5px 18px var(--theme-glow, rgba(2, 132, 199, 0.16));
+  }
+  .liquid-glass,
+  .liquid-glass-dark {
+    background-image: linear-gradient(118deg, transparent 26%, rgba(255, 255, 255, 0.12) 48%, transparent 70%);
+    background-size: 220% 100%;
+    animation: liquid-surface-flow 10s ease-in-out infinite;
+  }
+}
+@keyframes liquid-surface-flow {
+  0%, 100% { background-position: 150% 0; }
+  50% { background-position: -30% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  button:not(:disabled) { transition: none !important; }
+  .liquid-glass, .liquid-glass-dark { animation: none !important; }
+}

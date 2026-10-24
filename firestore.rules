@@ -1,0 +1,115 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidUser(data) {
+      return data.userId is string &&
+             data.userId == request.auth.uid &&
+             data.userName is string &&
+             data.userName.size() <= 80 &&
+             (!('userAvatar' in data) || (data.userAvatar is string && data.userAvatar.size() <= 500)) &&
+             (!('userTitle' in data) || (data.userTitle is string && data.userTitle.size() <= 50)) &&
+             (!('theme' in data) || (data.theme is string && data.theme.size() <= 30)) &&
+             (!('sound' in data) || data.sound is bool) &&
+             (!('vibrate' in data) || data.vibrate is bool) &&
+             (!('particles' in data) || data.particles is bool) &&
+             (!('autoRefresh' in data) || data.autoRefresh is bool) &&
+             (!('refreshInterval' in data) || data.refreshInterval is number) &&
+             (!('recovery' in data) || data.recovery is bool) &&
+             (!('showNums' in data) || data.showNums is bool) &&
+             (!('server' in data) || (data.server is number && data.server >= 1 && data.server <= 3)) &&
+             (!('proxyUrl' in data) || (data.proxyUrl is string && data.proxyUrl.size() <= 500)) &&
+             (!('aiProxyUrl' in data) || (data.aiProxyUrl is string && data.aiProxyUrl.size() <= 500)) &&
+             (!('activeKey' in data) || (data.activeKey is string && data.activeKey.size() <= 100)) &&
+             (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 50));
+    }
+
+    function isValidHistory(data) {
+      return data.userId is string &&
+             data.userId == request.auth.uid &&
+             data.period is string &&
+             data.period.size() <= 30 &&
+             data.predicted is string &&
+             (data.predicted == 'BIG' || data.predicted == 'SMALL') &&
+             (!('focusTarget' in data) || (data.focusTarget is string && data.focusTarget.size() <= 30)) &&
+             (!('targetCategory' in data) || (data.targetCategory is string && data.targetCategory.size() <= 30)) &&
+             (!('suggestedNums' in data) || data.suggestedNums is list) &&
+             (!('result' in data) || (data.result is string && (data.result == 'WIN' || data.result == 'LOSS' || data.result == 'JACKPOT' || data.result == 'SKIPPED'))) &&
+             (!('isSkip' in data) || data.isSkip is bool) &&
+             (!('isHedgeActive' in data) || data.isHedgeActive is bool) &&
+             (!('skipReason' in data) || (data.skipReason is string && data.skipReason.size() <= 300)) &&
+             (!('engine' in data) || (data.engine is string && data.engine.size() <= 100)) &&
+             (!('confidence' in data) || data.confidence is number) &&
+             (!('timestamp' in data) || (data.timestamp is string && data.timestamp.size() <= 50)) &&
+             (!('createdAt' in data) || (data.createdAt is string && data.createdAt.size() <= 50));
+    }
+
+    function isValidSignal(data) {
+      return data.period is string &&
+             data.period.size() <= 30 &&
+             data.prediction is string &&
+             (data.prediction == 'BIG' || data.prediction == 'SMALL') &&
+             (!('focusTarget' in data) || (data.focusTarget is string && data.focusTarget.size() <= 30)) &&
+             (!('targetCategory' in data) || (data.targetCategory is string && data.targetCategory.size() <= 30)) &&
+             (!('luckyDigits' in data) || data.luckyDigits is list) &&
+             (!('isHedgeActive' in data) || data.isHedgeActive is bool) &&
+             (!('confidence' in data) || data.confidence is number) &&
+             (!('engine' in data) || (data.engine is string && data.engine.size() <= 100)) &&
+             (!('trendHealth' in data) || data.trendHealth is number) &&
+             (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 50));
+    }
+
+    // Health / Connection Test
+    match /test/{testId} {
+      allow read: if true;
+    }
+
+    // User Profile Documents
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUser(incoming());
+      allow update: if isOwner(userId) && isValidId(userId) && isValidUser(incoming());
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      // User History Sub-collection
+      match /history/{historyId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(historyId) && isValidHistory(incoming());
+        allow update: if isOwner(userId) && isValidId(historyId) && isValidHistory(incoming());
+        allow delete: if isOwner(userId) && isValidId(historyId);
+      }
+    }
+
+    // Global Shared Signals for real-time multiplayer / multi-device consensus
+    match /global_signals/{period} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && isValidId(period) && isValidSignal(incoming());
+      allow delete: if false;
+    }
+  }
+}
